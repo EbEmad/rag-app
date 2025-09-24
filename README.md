@@ -23,3 +23,11 @@ Follow these steps to run the project inside Docker:
 ```bash
 git clone https://github.com/EbEmad/mini-rag.git
 cd mini-rag
+
+### Setup the environment variables
+
+```bash
+$ cp .env.example .env
+```
+
+Set your environment variables in the `.env` file. Like `OPENAI_API_KEY` value.

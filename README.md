@@ -19,7 +19,7 @@ Before you begin, make sure you have the following installed:
 
 Follow these steps to run the project inside Docker:
 
-### 1️Clone the Repository
+### Clone the Repository
 ```bash
 git clone https://github.com/EbEmad/mini-rag.git
 cd mini-rag

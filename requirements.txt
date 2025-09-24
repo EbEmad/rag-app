@@ -1,8 +1,9 @@
-jupyter
-pandas
-numpy
-matplotlib
-seaborn
-fastapi
-uvicorn
-requests
+jupyter==1.0.0
+# pandas==2.0.3
+# numpy==1.25.0
+# matplotlib==3.7.2
+# seaborn==0.13.2
+fastapi==0.100.0
+uvicorn==0.24.0
+requests==2.31.0
+python-multipart==0.0.20

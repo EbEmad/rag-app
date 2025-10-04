@@ -5,7 +5,37 @@ services:
       dockerfile: Dockerfile
     ports:
       - "8000:8000"
-
     volumes:
-      ./src:/app/src
-      
+      - ./src:/app/src
+    networks:
+      - backend
+  mongo:
+    image: mongo:6.0
+    container_name: mongo_container
+    restart: always
+    ports:
+      - "27017:27017"   # host:container
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+      MONGO_INITDB_DATABASE: mini-rag
+    volumes:
+      - ./docker/mongo_data:/data/db  # persist data
+    networks:
+      - backend
+  mongo-express:   # Web UI for MongoDB (optional but useful)
+    image: mongo-express:1.0.0-alpha
+    container_name: mongo_express
+    restart: always
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: example
+      ME_CONFIG_MONGODB_SERVER: mongo
+    depends_on:
+      - mongo
+    networks:
+      - backend
+networks:
+  backend:

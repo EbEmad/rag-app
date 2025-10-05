@@ -22,7 +22,8 @@ Follow these steps to run the project inside Docker:
 ### Clone the Repository
 ```bash
 git clone https://github.com/EbEmad/mini-rag.git
-cd mini-rag
+cd mini-rag/docker
+
 
 ### Setup the environment variables
 

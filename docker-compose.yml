@@ -1,10 +1,12 @@
 services:
   app:
     build:
-      context: .
+      context: ./docker
       dockerfile: Dockerfile
+    container_name: python
     ports:
       - "8000:8000"
+      - "5000:5000"
     env_file:
       - .env
     volumes:

@@ -1,16 +1,16 @@
 services:
   app:
     build:
-      context: ./docker
+      context: .
       dockerfile: Dockerfile
     container_name: python
     ports:
       - "8000:8000"
       - "5000:5000"
     env_file:
-      - .env
+      - ../.env
     volumes:
-      - ./src:/app/src
+      - ../src:/app/src
     networks:
       - backend
   mongo:
@@ -24,7 +24,7 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
       MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
     volumes:
-      - ./docker/mongo_data:/data/db  # persist data
+      - mongo_data:/data/db  # persist data
     networks:
       - backend
   mongo-express:   # Web UI for MongoDB (optional but useful)
@@ -43,3 +43,5 @@ services:
       - backend
 networks:
   backend:
+volumes:
+  mongo_data:

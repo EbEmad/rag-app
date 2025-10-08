@@ -1,0 +1,34 @@
+services:
+  app:
+    build:
+      context: ./docker
+      dockerfile: Dockerfile
+    container_name: python
+    ports:
+      - "8000:8000"
+      - "5000:5000"
+    env_file:
+      - ./docker/.env
+    volumes:
+      - ./src:/app/src
+    networks:
+      - backend
+
+  mongodb:
+    image: mongo:7-jammy
+    container_name: mongodb
+    ports:
+      - "27007:27017"
+    volumes:
+      - mongo_data:/data/db
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+    networks:
+      - backend
+
+networks:
+  backend:
+
+volumes:
+  mongo_data:

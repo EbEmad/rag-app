@@ -1,6 +1,6 @@
 from enum import Enum
 
-class AssetTypeEnyum(Enum):
+class AssetTypeEnum(Enum):
     
     FILE='file'
     

@@ -18,5 +18,3 @@ class ProjectController(BaseController):
             os.makedirs(project_dir)
 
         return project_dir
-
-    

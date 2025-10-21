@@ -6,6 +6,7 @@ jupyter==1.0.0
 fastapi==0.100.0
 uvicorn==0.24.0
 requests==2.31.0
+httpx==0.24.1
 python-multipart==0.0.20
 python-dotenv==1.0.0
 pydantic-settings==2.0.3
@@ -14,6 +15,6 @@ langchain==0.3.7
 langchain-community==0.3.7
 PyMuPDF==1.26.5
 motor==3.6.0
-openai==1.52.2
+openai==1.12.0
 cohere==5.9.0
 qdrant-client>=1.11.0,<2.0.0

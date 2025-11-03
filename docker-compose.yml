@@ -1,18 +1,18 @@
 services:
-  app:
-    build:
-      context: ./docker
-      dockerfile: Dockerfile
-    container_name: python
-    ports:
-      - "8000:8000"
-      - "5000:5000"
-    env_file:
-      - ./docker/.env
-    volumes:
-      - ./src:/app/src
-    networks:
-      - backend
+  # app:
+  #   build:
+  #     context: ./docker
+  #     dockerfile: Dockerfile
+  #   container_name: python
+  #   ports:
+  #     - "8000:8000"
+  #     - "5000:5000"
+  #   env_file:
+  #     - ./docker/.env
+  #   volumes:
+  #     - ./src:/app/src
+  #   networks:
+  #     - backend
 
   mongodb:
     image: mongo:7-jammy
@@ -35,7 +35,7 @@ services:
     volumes:
       - 'pgvector:/var/lib/postgresql/data'
     env_file:
-      - ./env/.env.postgres
+      - ./.env
     networks:
       - backend
     restart: always

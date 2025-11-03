@@ -5,11 +5,13 @@ from helpers.config import get_settings
 from stores.llm.LLMProviderFactory import LLMProviderFactory
 from stores.vectordb.VectorDBProvideFactory import VectorDBProviderFactory
 from stores.llm.templates.template_parser import TemplateParser
+from sqlalchemy.ext.asyncio import create_async_engine
 app = FastAPI()
 
 async def startup_span():
     settings = get_settings()
-    app.mongo_conn = AsyncIOMotorClient(settings.MONGODB_URL)
+    # app.mongo_conn = AsyncIOMotorClient(settings.MONGODB_URL)
+    postgres_conn=""
     app.db_client = app.mongo_conn[settings.MONGODB_DATABASE]
 
     llm_provider_factory = LLMProviderFactory(settings)

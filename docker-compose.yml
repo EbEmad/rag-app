@@ -1,18 +1,18 @@
 services:
-  app:
-    build:
-      context: ./docker
-      dockerfile: Dockerfile
-    container_name: python
-    ports:
-      - "8000:8000"
-      - "5000:5000"
-    env_file:
-      - ./docker/.env
-    volumes:
-      - ./src:/app/src
-    networks:
-      - backend
+  # app:
+  #   build:
+  #     context: ./docker
+  #     dockerfile: Dockerfile
+  #   container_name: python
+  #   ports:
+  #     - "8000:8000"
+  #     - "5000:5000"
+  #   env_file:
+  #     - ./docker/.env
+  #   volumes:
+  #     - ./src:/app/src
+  #   networks:
+  #     - backend
 
   mongodb:
     image: mongo:7-jammy
@@ -27,9 +27,29 @@ services:
       - MONGO_INITDB_DATABASE=${MONGO_INITDB_DATABASE}
     networks:
       - backend
+  pgvector:
+    image: pgvector/pgvector:0.8.0-pg17
+    container_name: pgvector
+    ports:
+      - "5400:5432"
+    volumes:
+      - 'pgvector:/var/lib/postgresql/data'
+    env_file:
+      - ./.env
+    networks:
+      - backend
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
 
 networks:
   backend:
 
 volumes:
   mongo_data:
+  pgvector:

@@ -1,1 +1,1 @@
-from .VectorDBProvideFactory import VectorDBProviderFactory
+from .VectorDBProviderFactory import VectorDBProviderFactory

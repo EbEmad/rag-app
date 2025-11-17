@@ -2,7 +2,7 @@ from enum import Enum
 
 class VectorDBEnums(Enum):
     QDRANT = "QDRANT"
-    PGVECTOR= "PGVECTOR"
+    PGVECTOR = "PGVECTOR"
 
 class DistanceMethodEnums(Enum):
     COSINE = "cosine"
@@ -16,7 +16,10 @@ class PgVectorTableSchemeEnums(Enum):
     METADATA = 'metadata'
     _PREFIX = 'pgvector'
 
-
 class PgVectorDistanceMethodEnums(Enum):
     COSINE = "vector_cosine_ops"
     DOT = "vector_l2_ops"
+
+class PgVectorIndexTypeEnums(Enum):
+    HNSW = "hnsw"
+    IVFFLAT = "ivfflat"

@@ -4,6 +4,7 @@ import cohere
 import logging
 import time
 from cohere.errors import TooManyRequestsError
+from typing import List,Union
 
 class CoHereProvider(LLMInterface):
 
@@ -80,11 +81,13 @@ class CoHereProvider(LLMInterface):
                 self.logger.error(f"Error while generating text with CoHere: {e}")
                 return None
     
-    def embed_text(self, text: str, document_type: str = None, max_retries: int = 3):
+    def embed_text(self, text: Union[str,List[str]], document_type: str = None, max_retries: int = 3):
         if not self.client:
             self.logger.error("CoHere client was not set")
             return None
         
+        if isinstance(text,str):
+            text=[text]
         if not self.embedding_model_id:
             self.logger.error("Embedding model for CoHere was not set")
             return None
@@ -97,7 +100,7 @@ class CoHereProvider(LLMInterface):
             try:
                 response = self.client.embed(
                     model = self.embedding_model_id,
-                    texts = [self.process_text(text)],
+                    texts = [self.process_text(t) for t in text],
                     input_type = input_type,
                     embedding_types=['float'],
                 )
@@ -105,8 +108,8 @@ class CoHereProvider(LLMInterface):
                 if not response or not response.embeddings or not response.embeddings.float:
                     self.logger.error("Error while embedding text with CoHere")
                     return None
-                
-                return response.embeddings.float[0]
+                return [f for f in response.embeddings.float]
+                #return response.embeddings.float[0]
                 
             except TooManyRequestsError as e:
                 if attempt < max_retries - 1:

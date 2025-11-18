@@ -14,7 +14,6 @@ class PGVectorProvider(VectorDBInterface):
         
         self.db_client = db_client
         self.default_vector_size = default_vector_size
-        
         self.index_threshold = index_threshold
 
         if distance_method == DistanceMethodEnums.COSINE.value:

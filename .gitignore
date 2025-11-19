@@ -138,7 +138,6 @@ celerybeat.pid
 .env
 .envrc
 .venv
-env/
 venv/
 ENV/
 env.bak/
@@ -208,3 +207,8 @@ __marimo__/
 python-env
 tmp
 file.txt
+test.txt
+env/.env*
+!env/.env.example.*
+
+docker/minirag/alembic.ini

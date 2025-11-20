@@ -1,3 +1,4 @@
+version: '3.8'
 services:
 
   # FastAPI Application
@@ -59,7 +60,7 @@ services:
     ports:
       - "9187:9187"
     env_file:
-      - ./env/.env.postgres-exporter
+      - ./env/.env.postgres.exporter
     depends_on:
       - pgvector
     networks:

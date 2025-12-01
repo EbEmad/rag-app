@@ -5,12 +5,12 @@ services:
   fastapi:
     build:
       context: .
-      dockerfile: ./docker/minirag/Dockerfile  
+      dockerfile: ./docker/minirag/Dockerfile
     container_name: fastapi
     ports:
       - "8000:8000"
     env_file:
-      - ./env/.env.app
+      - ./docker/env/.env.app
     networks:
       - backend
     restart: always
@@ -32,7 +32,6 @@ services:
       - backend
     restart: always
 
-
   # Postgres (pgvector)
   pgvector:
     image: pgvector/pgvector:0.8.0-pg17
@@ -42,12 +41,12 @@ services:
     volumes:
       - 'pgvector:/var/lib/postgresql/data'
     env_file:
-      - ./env/.env.postgres
+      - ./docker/env/.env.postgres
     networks:
       - backend
     restart: always
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -60,7 +59,7 @@ services:
     ports:
       - "9187:9187"
     env_file:
-      - ./env/.env.postgres.exporter
+      - ./docker/env/.env.postgres.exporter
     depends_on:
       - pgvector
     networks:
@@ -108,7 +107,7 @@ services:
     volumes:
       - grafana_data:/var/lib/grafana
     env_file:
-      - ./env/.env.grafana
+      - ./docker/env/.env.grafana
     depends_on:
       - prometheus
     networks:
@@ -134,8 +133,48 @@ services:
       - backend
     restart: always
 
+  # RabbitMQ (Message Broker)
+  rabbitmq:
+    image: rabbitmq:4.1.2-management-alpine
+    container_name: rabbitmq
+    ports:
+      - "5672:5672" # AMQP port
+      - "15672:15672" # Management UI port
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+    env_file:
+      - ./docker/env/.env.rabbitmq
+    networks:
+      - backend
+    restart: always
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "ping" ]
+      timeout: 10s
+      retries: 5
+
+  # Redis (Results Backend & Cache)
+  redis:
+    image: redis:8.0.3-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    env_file:
+      - ./docker/env/.env.redis
+    networks:
+      - backend
+    restart: always
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      timeout: 10s
+      retries: 5
+    command: [ "redis-server", "--appendonly", "yes", "--requirepass", "${REDIS_PASSWORD:-minirag_redis_2222}" ]
+
 networks:
   backend:
+
 
 volumes:
   fastapi_data:
@@ -143,3 +182,5 @@ volumes:
   qdrant_data:
   prometheus_data:
   grafana_data:
+  rabbitmq_data:
+  redis_data:
